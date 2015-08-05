@@ -68,7 +68,6 @@ public class SetPreferenceActivity extends Activity implements
 	    if (!btAdapter.isEnabled()) {
 		turnOnBT();
 	    }
-
 	    getPairedDevices();
 	    startDiscovery();
 	}
@@ -207,7 +206,7 @@ public class SetPreferenceActivity extends Activity implements
     protected void onPause() {
 	// TODO Auto-generated method stub
 	super.onPause();
-	unregisterReceiver(receiver);
+	// unregisterReceiver(receiver);
     }
 
     @Override

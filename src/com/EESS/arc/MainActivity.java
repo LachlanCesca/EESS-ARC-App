@@ -41,8 +41,6 @@ public class MainActivity extends Activity {
 	// SPINNER
 	speedSpinner = (Spinner) findViewById(R.id.spinner_speed);
 
-	Spinner spinner = (Spinner) findViewById(R.id.spinner_speed);
-
 	ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
 		android.R.layout.simple_spinner_item, speedStrings);
 
@@ -150,81 +148,41 @@ public class MainActivity extends Activity {
 		    + tiltDegrees);
 
 	    if (SetPreferenceActivity.theConnectedDevice != null) {
-		String s_motorR, s_motorL;
-		int xscale = (int) ((int) 5 * speedModifier);
-		int yscale = (int) ((int) 7 * speedModifier);
-		int new_y = -y * yscale;
-		int motorR = new_y;
-		int motorL = new_y;
-
-		int xthreshold = 3;
-		int ythreshold = 3;
-
-		if (Math.abs(x) > xthreshold) {
-		    if (-y < -ythreshold) {
-			motorR += x * xscale;
-			motorL -= x * xscale;
-		    } else if (-y > ythreshold) {
-			motorL += x * xscale;
-			motorR -= x * xscale;
-		    } else {
-			motorL = (int) (x * xscale * 1.5);
-			motorR = -(int) (x * xscale * 1.5);
-		    }
-		}
-
-		if (motorL > 10 * yscale) {
-		    motorL = 10 * yscale;
-		}
-		if (motorR > 10 * yscale) {
-		    motorR = 10 * yscale;
-		}
-		if (motorR < -10 * yscale) {
-		    motorR = -10 * yscale;
-		}
-		if (motorL < -10 * yscale) {
-		    motorL = -10 * yscale;
-		}
-
-		if (motorR < 0) {
-		    // Negative
-		    s_motorR = "-";
-		    motorR = -motorR;
-		} else {
-		    // Positive
-		    s_motorR = "0";
-		}
-
-		if (motorR < 100) {
-		    if (motorR < 10) {
-			s_motorR += "00" + motorR;
-		    } else {
-			s_motorR += "0" + motorR;
-		    }
-		} else {
-		    s_motorR += motorR;
-		}
-
-		if (motorL < 0) {
-		    // Negative
-		    s_motorL = "-";
-		    motorL = -motorL;
-		} else {
-		    // Positive
-		    s_motorL = "0";
-		}
-
-		if (motorL < 100) {
-		    if (motorL < 10) {
-			s_motorL += "00" + motorL;
-		    } else {
-			s_motorL += "0" + motorL;
-		    }
-		} else {
-		    s_motorL += motorL;
-		}
-
-		String s = "BTM" + s_motorR + s_motorL;
+		/*
+		 * String s_motorR, s_motorL; int xscale = (int) ((int) 2 *
+		 * speedModifier); int yscale = (int) ((int) 7 * speedModifier);
+		 * int new_y = -y * yscale; int motorR = new_y; int motorL =
+		 * new_y;
+		 * 
+		 * int xthreshold = 3; int ythreshold = 3;
+		 * 
+		 * if (Math.abs(x) > xthreshold) { if (-y < -ythreshold) {
+		 * motorR += x * xscale; motorL -= x * xscale; } else if (-y >
+		 * ythreshold) { motorL += x * xscale; motorR -= x * xscale; }
+		 * else { motorL = (int) (x * xscale * 1.5); motorR = -(int) (x
+		 * * xscale * 1.5); } }
+		 * 
+		 * if (motorL > 10 * yscale) { motorL = 10 * yscale; } if
+		 * (motorR > 10 * yscale) { motorR = 10 * yscale; } if (motorR <
+		 * -10 * yscale) { motorR = -10 * yscale; } if (motorL < -10 *
+		 * yscale) { motorL = -10 * yscale; }
+		 * 
+		 * if (motorR < 0) { // Negative s_motorR = "-"; motorR =
+		 * -motorR; } else { // Positive s_motorR = "0"; }
+		 * 
+		 * if (motorR < 100) { if (motorR < 10) { s_motorR += "00" +
+		 * motorR; } else { s_motorR += "0" + motorR; } } else {
+		 * s_motorR += motorR; }
+		 * 
+		 * if (motorL < 0) { // Negative s_motorL = "-"; motorL =
+		 * -motorL; } else { // Positive s_motorL = "0"; }
+		 * 
+		 * if (motorL < 100) { if (motorL < 10) { s_motorL += "00" +
+		 * motorL; } else { s_motorL += "0" + motorL; } } else {
+		 * s_motorL += motorL; } String s = "BTM" + s_motorR + s_motorL;
+		 */
+		MotorController mc = new MotorController(x, y, speedModifier);
+		String s = mc.getMotorCommand();
 		SetPreferenceActivity.myConnectedThread.write(s.getBytes());
 	    }
 	}
