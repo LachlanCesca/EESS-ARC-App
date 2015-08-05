@@ -27,11 +27,15 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_flight_takeoff_white_24dp=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
+        public static final int ic_info_outline_white_24dp=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int ic_picture_in_picture_white_24dp=0x7f020003;
+        public static final int ic_settings_bluetooth_white_24dp=0x7f020004;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0009;
-        public static final int action_takeoff=0x7f0a0008;
+        public static final int action_changeImage=0x7f0a0009;
+        public static final int action_horn=0x7f0a0008;
+        public static final int action_settings=0x7f0a000a;
         public static final int btn_back=0x7f0a0007;
         public static final int joystickView=0x7f0a0001;
         public static final int listView1=0x7f0a0006;

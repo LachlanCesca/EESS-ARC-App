@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.EESS.arc.widgets.JoystickMovedListener;
 import com.EESS.arc.widgets.JoystickView;
@@ -32,6 +31,8 @@ public class MainActivity extends Activity {
     JoystickView joystick;
     int tiltDegrees = 500;
     int panDegrees = 500;
+
+    int imageID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,9 +108,28 @@ public class MainActivity extends Activity {
 	    intent.setClass(MainActivity.this, SetPreferenceActivity.class);
 	    startActivityForResult(intent, 0);
 	    return true;
-	case R.id.action_takeoff:
+	    /*
+	     * case R.id.action_takeoff: if
+	     * (SetPreferenceActivity.theConnectedDevice != null) { String s =
+	     * "BTM+100+100";
+	     * SetPreferenceActivity.myConnectedThread.write(s.getBytes()); }
+	     * return true;
+	     */
+	case R.id.action_changeImage:
 	    if (SetPreferenceActivity.theConnectedDevice != null) {
-		String s = "BTM+100+100";
+		String s = "BTI" + imageID;
+		SetPreferenceActivity.myConnectedThread.write(s.getBytes());
+		if (imageID < 6) {
+		    imageID++;
+		} else {
+		    imageID = 1;
+		}
+	    }
+	    return true;
+
+	case R.id.action_horn:
+	    if (SetPreferenceActivity.theConnectedDevice != null) {
+		String s = "BTS1";
 		SetPreferenceActivity.myConnectedThread.write(s.getBytes());
 	    }
 	    return true;
@@ -120,7 +140,6 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	Toast.makeText(getApplicationContext(), "Return", 0).show();
 	if (SetPreferenceActivity.theConnectedDevice != null) {
 	    myListPref.setText(SetPreferenceActivity.theConnectedDevice);
 

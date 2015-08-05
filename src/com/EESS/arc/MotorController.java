@@ -10,19 +10,36 @@ public class MotorController {
 	// Recallibrate
 	y = -y;
 
+	// The threshold at which the perpedicular axis will take effect
 	int xthreshold = 3;
 	int ythreshold = 3;
 
 	float generalScaling = scaling;
 
+	// Scaling for when car is in reverse direction
+	float reverseScaling = (float) 0.5;
+
+	// Scale -10 to 10 up to motor speeds
+	// Different for each axis (fine tuning)
 	float xscale = 4 * generalScaling;
 	float yscale = 7 * generalScaling;
 
-	float xthresholdScaling = 2 * generalScaling;
-	float ythresholdScaling = 4 * generalScaling;
+	// The scaling for when the joystick is in far left and far right only
+	float xthresholdScaling = generalScaling;
 
+	// Scale motor speeds based on y axis
+	// Then change each motor based on x component
 	float motorR = y * yscale;
 	float motorL = y * yscale;
+
+	// Initial speed point for pure x axis movement
+	int initialPivotSpeed = 9;
+
+	// Scale motors if in reverse
+	if (y < 0) {
+	    motorR = motorR * reverseScaling;
+	    motorL = motorL * reverseScaling;
+	}
 
 	if (Math.abs(y) > ythreshold) {
 	    // If above x threshold
@@ -32,24 +49,24 @@ public class MotorController {
 		    x = Math.abs(x);
 		    // Quadrant 1 (top left)
 		    if (y > 0) {
-			motorR += x * ythresholdScaling;
-			motorL -= x * ythresholdScaling;
+			motorR += x * xscale;
+			motorL -= x * xscale;
 		    }
 		    // Quadrant 2 (bottom left)
 		    if (y < 0) {
-			motorR -= x * ythresholdScaling;
-			motorL += x * ythresholdScaling;
+			motorR -= x * xscale * reverseScaling;
+			motorL += x * xscale * reverseScaling;
 		    }
 		} else if (x > 0) {
 		    // Quadrant 3 (top right)
 		    if (y > 0) {
-			motorR -= x * ythresholdScaling;
-			motorL += x * ythresholdScaling;
+			motorR -= x * xscale;
+			motorL += x * xscale;
 		    }
 		    // Quadrant 4 (bottom right)
 		    if (y < 0) {
-			motorR += x * ythresholdScaling;
-			motorL -= x * ythresholdScaling;
+			motorR += x * xscale * reverseScaling;
+			motorL -= x * xscale * reverseScaling;
 		    }
 		}
 	    }
@@ -57,12 +74,12 @@ public class MotorController {
 	} else {
 	    if (x < 0) {
 		// x threshold 1 (left)
-		motorR = Math.abs(x * xthresholdScaling);
-		motorL = -Math.abs(x * xthresholdScaling);
+		motorR = Math.abs(x * xthresholdScaling) + initialPivotSpeed;
+		motorL = -(Math.abs(x * xthresholdScaling) + initialPivotSpeed);
 	    } else if (x > 0) {
 		// x threshold 2 (right)
-		motorR = -(x * xthresholdScaling);
-		motorL = (x * xthresholdScaling);
+		motorR = -(Math.abs(x * xthresholdScaling) + initialPivotSpeed);
+		motorL = Math.abs(x * xthresholdScaling) + initialPivotSpeed;
 	    }
 	}
 

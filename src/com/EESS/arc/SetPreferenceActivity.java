@@ -114,6 +114,8 @@ public class SetPreferenceActivity extends Activity implements
 
     private void startDiscovery() {
 	// TODO Auto-generated method stub
+	Toast.makeText(getApplicationContext(), "Searching for devices...",
+		Toast.LENGTH_LONG).show();
 	btAdapter.cancelDiscovery();
 	btAdapter.startDiscovery();
 
@@ -147,8 +149,7 @@ public class SetPreferenceActivity extends Activity implements
 	pairedDevices = new ArrayList<String>();
 	filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 	devices = new ArrayList<BluetoothDevice>();
-	Toast.makeText(getApplicationContext(), "Searching for devices...",
-		Toast.LENGTH_LONG).show();
+
 	receiver = new BroadcastReceiver() {
 	    @Override
 	    public void onReceive(Context context, Intent intent) {
@@ -193,6 +194,10 @@ public class SetPreferenceActivity extends Activity implements
 	    }
 	};
 
+	registerRecievers();
+    }
+
+    protected void registerRecievers() {
 	registerReceiver(receiver, filter);
 	filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
 	registerReceiver(receiver, filter);
@@ -206,7 +211,14 @@ public class SetPreferenceActivity extends Activity implements
     protected void onPause() {
 	// TODO Auto-generated method stub
 	super.onPause();
-	// unregisterReceiver(receiver);
+	unregisterReceiver(receiver);
+    }
+
+    @Override
+    protected void onResume() {
+	// TODO Auto-generated method stub
+	super.onResume();
+	registerRecievers();
     }
 
     @Override
@@ -218,6 +230,13 @@ public class SetPreferenceActivity extends Activity implements
 		    "Bluetooth must be enabled to continue", Toast.LENGTH_SHORT)
 		    .show();
 	    finish();
+	} else {
+	    // I couldnt figure out how to get it to search after it enabled
+	    // bluetooth
+	    // So I restart the activity.
+	    Intent intent = getIntent();
+	    finish();
+	    startActivity(intent);
 	}
     }
 

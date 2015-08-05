@@ -2,15 +2,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.EESS.arc.MainActivity" >
 
-    <item android:id="@+id/action_takeoff"
+    
+     <item android:id="@+id/action_horn"
+          android:icon="@drawable/ic_info_outline_white_24dp"
+          android:title="Horn"
+          android:showAsAction="ifRoom" />
+    
+     <!--
+     <item android:id="@+id/action_takeoff"
           android:icon="@drawable/ic_flight_takeoff_white_24dp"
           android:title="TakeOff"
           android:showAsAction="ifRoom" />
+   	 -->
+   	 
+    <item android:id="@+id/action_changeImage"
+          android:icon="@drawable/ic_picture_in_picture_white_24dp"
+          android:title="Change Image"
+          android:showAsAction="ifRoom" />
+    
     
     <item
         android:id="@+id/action_settings"
+        android:icon="@drawable/ic_settings_bluetooth_white_24dp"
         android:orderInCategory="100"
-        android:showAsAction="never"
+        android:showAsAction="ifRoom"
         android:title="@string/action_settings"/>
     
 
